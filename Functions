@@ -1,0 +1,48 @@
+# This file has all functions necessary to treat the OCR input 
+
+from PIL import Image
+import pytesseract
+from pytesseract import image_to_string
+import pyscreenshot as ImageGrab
+import unidecode
+from google import google
+import numpy as np
+import time
+pytesseract.pytesseract.tesseract_cmd = "/usr/local/bin/tesseract"
+
+def line_sep_dash_bannisher(string):
+    string = string.replace('\n', ' ').replace('--', '-')
+    return string
+
+def common_words_sniffer(answer1, answer2, answer3):
+    answer1 = answer1.split()
+    answer2 = answer2.split()
+    answer3 = answer3.split()
+    common_words = list(set(answer1)&set(answer2)) + list(set(answer1)&set(answer3)) + list(set(answer3)&set(answer2))
+    common_words = list(set(common_words))
+    return common_words
+    
+def common_words_blaster(string, common_words):
+    string = string.split()
+    string = ' '.join([i for i in string if i not in common_words])
+    return string
+
+def score_keeper(answer, description):
+    answer = answer.split()
+    description = description.split()
+    count = 0
+    for i in answer:
+        count += description.count(i)
+    return count
+    
+def small_words_crusher(answer):
+    answer = answer.split()
+    answer = ' '.join([i for i in answer if len(i) > 3 or i.isdigit() == True])
+    return answer
+    
+    
+def screenshot_taker():
+    ScreenshotQ = ImageGrab.grab(bbox=(968,173+Hotspot,1400,302+Hotspot), childprocess=False)
+    ScreenshotA1 = ImageGrab.grab(bbox=(988,377+Hotspot,1375,428+Hotspot), childprocess=False)
+    ScreenshotA2 = ImageGrab.grab(bbox=(988,475+Hotspot,1375,527+Hotspot), childprocess=False)
+    ScreenshotA3 = ImageGrab.grab(bbox=(988,569+Hotspot,1375,623+Hotspot), childprocess=False)
